@@ -26,10 +26,10 @@ namespace AeroGear.OAuth2
 {
     public class KeycloakOAuth2Module : OAuth2Module
     {
-        public async static new Task<OAuth2Module> Create(Config config)
+        public async static new Task<OAuth2Module> Create(Config config, bool readSession = true)
         {
             KeycloakOAuth2Module module = new KeycloakOAuth2Module();
-            await module.init(config);
+            await module.init(config, readSession);
             return module;
         }
 

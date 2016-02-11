@@ -37,10 +37,10 @@ namespace AeroGear.OAuth2
 
         public Config config { get; private set; }
 
-        public async static Task<OAuth2Module> Create(Config config)
+        public async static Task<OAuth2Module> Create(Config config, bool readSession = true)
         {
             OAuth2Module module = new OAuth2Module();
-            await module.init(config);
+            await module.init(config, readSession);
             return module; 
         }
 
@@ -52,12 +52,15 @@ namespace AeroGear.OAuth2
             return module;
         }
 
-        public async Task init(Config config)
+        public async Task init(Config config, bool readSession = true)
         {
             this.config = config;
             try
             {
-                session = await repository.Read(config.accountId);
+                if (readSession)
+                    session = await repository.Read(config.accountId);
+                else
+                    session = new Session() { accountId = config.accountId };
             }
             catch (IOException)
             {

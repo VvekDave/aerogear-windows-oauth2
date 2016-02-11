@@ -23,10 +23,10 @@ namespace AeroGear.OAuth2
 {
     public class FacebookOAuth2Module : OAuth2Module
     {
-        public async static new Task<OAuth2Module> Create(Config config)
+        public async static new Task<OAuth2Module> Create(Config config, bool readSession = true)
         {
             FacebookOAuth2Module module = new FacebookOAuth2Module();
-            await module.init(config);
+            await module.init(config, readSession);
             return module;
         }
 
@@ -36,7 +36,7 @@ namespace AeroGear.OAuth2
             string queryString = await reader.ReadToEndAsync();
             IDictionary<string, string> data = ParseQueryString(queryString);
 
-            Session session = new Session() 
+            Session session = new Session()
             {
                 accessToken = data["access_token"],
                 accessTokenExpiration = int.Parse(data["expires"])
